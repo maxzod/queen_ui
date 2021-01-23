@@ -16,7 +16,7 @@ class QueenNavBar extends StatelessWidget {
   /// * [optional] deffult is left-to-right
   final TextDirection textDirection;
 
-  final Widget Function() drawerButtonBuilder;
+  final Widget Function(BuildContext context) drawerButtonBuilder;
 
   QueenNavBar({
     @required this.logo,
@@ -61,7 +61,7 @@ class QueenNavBar extends StatelessWidget {
           child: const Icon(Icons.menu),
         );
       } else {
-        return this.drawerButtonBuilder();
+        return this.drawerButtonBuilder(context);
       }
     } else {
       return Container();
