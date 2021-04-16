@@ -1,19 +1,12 @@
 name: queen_ui
-description: Build Responsive Apps With Queen 
-version: 0.0.1
-author: AHMED MASOUD 
-homepage: https://github.com/maxzod
-
+description: collection of ui pre built components to save you the boilerplate
+version: 0.0.1+1
+author: AHMED MASOUD
+homepage: https://github.com/maxzod/queen_ui
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
-
+  sdk: ">=2.12.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
-
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-flutter:
+  lint: ^1.5.3

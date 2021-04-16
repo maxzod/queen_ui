@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 /// * UI compoent acting as navigation Bar
@@ -16,10 +18,10 @@ class QueenNavBar extends StatelessWidget {
   /// * [optional] deffult is left-to-right
   final TextDirection textDirection;
 
-  final Widget Function(BuildContext context) drawerButtonBuilder;
+  final WidgetBuilder? drawerButtonBuilder;
 
-  QueenNavBar({
-    @required this.logo,
+  const QueenNavBar({
+    this.logo = const SizedBox(),
     this.drawerButtonBuilder,
     this.children = const [],
     this.color = Colors.deepOrange,
@@ -35,51 +37,51 @@ class QueenNavBar extends StatelessWidget {
     return Container(
       height: AppBar().preferredSize.height,
       width: double.infinity,
-      color: this.color,
+      color: color,
       child: Directionality(
-        textDirection: this.textDirection,
+        textDirection: textDirection,
         child: bar,
       ),
     );
   }
 
-  Widget buildDrawerButton(context) {
-    if (this.children.length > 1) {
+  Widget buildDrawerButton(BuildContext context) {
+    if (children.length > 1) {
       // you need a drawer button
       // if no builder provider the bulild standerd one
-      if (this.drawerButtonBuilder == null) {
-        return OutlineButton(
+      if (drawerButtonBuilder == null) {
+        return OutlinedButton(
           onPressed: () {
             const String msg =
                 'build your DrawerButton using `drawerButtonBuilder` in QueenNavBar constractcor';
-            print(msg);
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(msg),
-              backgroundColor: Colors.amber,
-            ));
+            log(msg);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text(msg), backgroundColor: Colors.amber),
+            );
           },
           child: const Icon(Icons.menu),
         );
       } else {
-        return this.drawerButtonBuilder(context);
+        return drawerButtonBuilder == null
+            ? const SizedBox()
+            : drawerButtonBuilder!(context);
       }
     } else {
-      return Container();
+      return const SizedBox();
     }
   }
 
-  Widget buildForSmallScreens(context) {
+  Widget buildForSmallScreens(BuildContext context) {
     final Widget firstChild =
-        this.children.length > 0 ? this.children[0] : Container();
+        children.isNotEmpty ? children[0] : const SizedBox();
 
     return Center(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          this.logo ?? const Text("Queen 👑"),
+          logo,
           const Spacer(),
           firstChild,
-          buildDrawerButton(context)
+          buildDrawerButton(context),
         ],
       ),
     );
@@ -88,11 +90,10 @@ class QueenNavBar extends StatelessWidget {
   Widget buildForLargeScreens() {
     return Center(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          this.logo ?? const Text("Queen 👑"),
+          logo,
           const Spacer(),
-          ...this.children,
+          ...children,
         ],
       ),
     );
